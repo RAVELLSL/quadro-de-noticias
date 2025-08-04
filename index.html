@@ -8,7 +8,6 @@
   <style>
     :root {
       --accent: #005288;
-      --radius: 10px;
       --bg: #f2f5f9;
       --card: #ffffff;
       --text: #1f2937;
@@ -17,7 +16,7 @@
       --transition: .35s cubic-bezier(.4,.2,.2,1);
       font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     }
-    * { box-sizing: border-box; }
+    * { box-sizing:border-box; }
     body {
       margin:0;
       background: var(--bg);
@@ -26,12 +25,12 @@
       -webkit-font-smoothing: antialiased;
     }
     .wrapper {
-      max-width: 1024px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 40px 24px 60px;
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
     }
     .article-summary {
       background: var(--card);
@@ -61,29 +60,22 @@
       letter-spacing:1px;
     }
     .full-content { }
-    .article-summary.collapsed .full-content {
-      display: none;
-    }
-    .article-summary.collapsed .number-only {
-      display: flex;
-    }
-    .article-summary .number-only {
-      display: none;
-    }
+    .article-summary.collapsed .full-content { display: none; }
+    .article-summary.collapsed .number-only { display: flex; }
+    .article-summary .number-only { display: none; }
 
     .header {
-      padding: 28px 32px 8px;
+      padding: 20px 16px 8px;
       border-bottom: 1px solid var(--divider);
     }
     .title-block {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
     }
     .title {
       margin: 0;
-      font-size: 2.4rem;
+      font-size: 1.8rem;
       font-weight: 700;
       letter-spacing: 1px;
       position: relative;
@@ -93,31 +85,30 @@
     .title::after {
       content: '';
       display: block;
-      height: 4px;
-      width: 140px;
+      height: 3px;
+      width: 100px;
       background: var(--accent);
-      margin: 12px auto 0;
+      margin: 8px auto 0;
       border-radius: 2px;
     }
     .meta {
-      margin-top: 8px;
-      font-size: .75rem;
+      margin-top: 6px;
+      font-size: .6rem;
       color: var(--muted);
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 6px;
       justify-content: center;
     }
     .body {
       display: flex;
-      gap: 32px;
-      padding: 20px 32px 28px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 16px;
+      padding: 14px 16px 24px;
       align-items: flex-start;
     }
     .image-block {
-      flex: 1 1 55%;
-      min-width: 260px;
+      width: 100%;
       position: relative;
     }
     .image-block img {
@@ -129,35 +120,34 @@
       border: 2px solid #e6ecf5;
     }
     .points {
-      flex: 1 1 40%;
-      min-width: 260px;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       position: relative;
+      padding-left: 8px;
     }
     .points::before {
       content: '';
       position: absolute;
-      left: -18px;
-      top: 8px;
-      width: 3px;
-      height: 48px;
+      left: 0;
+      top: 6px;
+      width: 4px;
+      height: 44px;
       background: var(--accent);
       border-radius: 2px;
     }
     .points h2 {
       margin: 0 0 6px;
-      font-size: 1.3rem;
+      font-size: 1rem;
       font-weight: 600;
-      padding-left: 4px;
+      padding-left: 8px;
       display: inline-block;
     }
     .subtitle {
-      font-size: .65rem;
+      font-size: .55rem;
       color: var(--muted);
-      margin-bottom: 12px;
-      padding-left: 4px;
+      margin-bottom: 8px;
+      padding-left: 8px;
       text-transform: uppercase;
       letter-spacing: .5px;
     }
@@ -168,12 +158,13 @@
       counter-reset: item;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
+      padding-left: 8px;
     }
     ol.list li {
       position: relative;
-      padding-left: 36px;
-      font-size: 1rem;
+      padding-left: 28px;
+      font-size: .85rem;
     }
     ol.list li::before {
       counter-increment: item;
@@ -183,496 +174,259 @@
       top: 0;
       font-weight: 700;
       color: var(--accent);
-      width: 26px;
+      width: 24px;
     }
     .detail {
       display: block;
       margin-top: 4px;
-      font-size: .8rem;
+      font-size: .65rem;
       color: #444;
     }
     .footer {
-      padding: 14px 24px;
-      font-size: .7rem;
+      padding: 12px 16px;
+      font-size: .55rem;
       color: #7a8594;
       border-top: 1px solid var(--divider);
       text-align: center;
     }
-    @media (max-width: 960px) {
-      .body { flex-direction: column; gap: 24px; }
-      .title { font-size: 2rem; }
-      .points::before { display: none; }
+    @media (max-width: 1000px) {
+      .wrapper { grid-template-columns: 1fr; }
+      .title { font-size: 1.6rem; }
+      .points::before { display:none; }
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <!-- 1. GPT-5 -->
-    <div class="article-summary collapsed" data-index="1" aria-label="Resumo da matéria sobre GPT-5" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">1</h2>
-      </div>
+    <div class="article-summary collapsed" data-index="1" tabindex="0" aria-label="GPT-5">
+      <div class="number-only" aria-hidden="true"><h2 class="number">1</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">GPT-5: Lançamento Iminente e Foco em Raciocínio Avançado</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Tecnologia e Estratégia</div>
-          </div>
+          <div class="title-block"><h1 class="title">GPT-5: Lançamento Iminente e Foco em Raciocínio Avançado</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Tecnologia e Estratégia</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa do GPT-5">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2024/05/gpt-5-1024x682.jpg" alt="Representação visual do GPT-5">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2024/05/gpt-5-1024x682.jpg" alt="GPT-5"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo executivo e estratégico</div>
+            <div class="subtitle">Resumo executivo</div>
             <ol class="list">
-              <li>
-                Lançamento iminente com janela provável no início de agosto.
-                <span class="detail">Rumores internos e sinais de mercado indicam anúncio próximo.</span>
-              </li>
-              <li>
-                Avanço em raciocínio estruturado por modelos de múltiplas etapas.
-                <span class="detail">IA evolui de preditiva para analítica profunda.</span>
-              </li>
-              <li>
-                Unificação da experiência do usuário.
-                <span class="detail">Integração de voz, visual e pesquisa em uma interface coesa.</span>
-              </li>
-              <li>
-                Reposicionamento da linha de produtos.
-                <span class="detail">Clareza estratégica ao consolidar ofertas sob o GPT-5.</span>
-              </li>
+              <li>Lançamento iminente com janela provável no início de agosto.<span class="detail">Rumores internos indicam anúncio próximo.</span></li>
+              <li>Avanço em raciocínio estruturado.<span class="detail">IA evolui de preditiva para analítica profunda.</span></li>
+              <li>Unificação da experiência do usuário.<span class="detail">Integração de voz, visual e pesquisa.</span></li>
+              <li>Reposicionamento de produtos.<span class="detail">Consolidação sob GPT-5 para clareza estratégica.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
     <!-- 2. China 6G -->
-    <div class="article-summary collapsed" data-index="2" aria-label="Resumo da matéria sobre teste 6G da China" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">2</h2>
-      </div>
+    <div class="article-summary collapsed" data-index="2" tabindex="0" aria-label="China 6G">
+      <div class="number-only" aria-hidden="true"><h2 class="number">2</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">China Realiza Teste de 6G com Velocidade Recorde</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Conectividade e Geopolítica</div>
-          </div>
+          <div class="title-block"><h1 class="title">China Realiza Teste de 6G com Velocidade Recorde</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Conectividade e Geopolítica</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa do teste 6G">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/internet-6g-1920x1080.jpg" alt="Visualização de rede 6G de alta performance">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/internet-6g-1920x1080.jpg" alt="6G"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo estratégico e de impacto</div>
+            <div class="subtitle">Resumo de impacto</div>
             <ol class="list">
-              <li>
-                Teste alcançou 280 Gbps, baixando 50 GB em 1,4 segundo.
-                <span class="detail">Velocidade supera em ~14x a largura de banda teórica do 5G.</span>
-              </li>
-              <li>
-                Latência ultrabaixa fundamental para aplicações críticas.
-                <span class="detail">Habilita carros autônomos, cirurgias remotas e XR imersiva.</span>
-              </li>
-              <li>
-                Estratégia de liderança nacional em 6G.
-                <span class="detail">10 centros de P&amp;D, satélite 6G em órbita e investimento massivo (~R$30 bi).</span>
-              </li>
-              <li>
-                Cenário global versus cronograma do Brasil.
-                <span class="detail">Anatel prevê edital em 2026; adoção efetiva por volta de 2032.</span>
-              </li>
+              <li>280 Gbps; 50 GB em 1,4 segundo.<span class="detail">~14x mais rápido que 5G teórico.</span></li>
+              <li>Latência ultrabaixa para aplicações críticas.<span class="detail">Carros autônomos, cirurgias remotas e XR.</span></li>
+              <li>Estratégia chinesa robusta.<span class="detail">Centros de P&D, satélite e investimento (~R$30 bi).</span></li>
+              <li>Cenário Brasil vs global.<span class="detail">Edital 6G previsto 2026; adoção em 2032.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
     <!-- 3. Capacete com IA -->
-    <div class="article-summary collapsed" data-index="3" aria-label="Resumo da matéria sobre capacete IA que traduz pensamentos" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">3</h2>
-      </div>
+    <div class="article-summary collapsed" data-index="3" tabindex="0" aria-label="Capacete IA">
+      <div class="number-only" aria-hidden="true"><h2 class="number">3</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">Capacete com IA Traduz Pensamentos em Texto com 75% de Precisão</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Saúde e Acessibilidade</div>
-          </div>
+          <div class="title-block"><h1 class="title">Capacete com IA Traduz Pensamentos em Texto com 75% de Precisão</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Saúde e Acessibilidade</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa do capacete com IA">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2025/07/shutterstock_1121158859-1-1920x1080.jpg" alt="Capacete com interface cérebro-computador">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2025/07/shutterstock_1121158859-1-1920x1080.jpg" alt="Capacete IA"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo técnico e de impacto</div>
+            <div class="subtitle">Resumo técnico</div>
             <ol class="list">
-              <li>
-                Capacete não invasivo decodifica ondas cerebrais em texto com 75% de precisão.
-                <span class="detail">Desenvolvido pela UTS, usa EEG sem necessidade de cirurgia.</span>
-              </li>
-              <li>
-                Interface Cérebro-Computador (ICC) totalmente não invasiva.
-                <span class="detail">Cria canal direto de comunicação sem implantes, aumentando acessibilidade.</span>
-              </li>
-              <li>
-                Pipeline em dois estágios: tradução e refinamento.
-                <span class="detail">Modelo profundo traduz sinais; LLM organiza e corrige linguagem.</span>
-              </li>
-              <li>
-                Aplicações clínicas e futuras interações silenciosas.
-                <span class="detail">Ajuda pacientes sem fala e antecipa controle intuitivo de dispositivos.</span>
-              </li>
-              <li>
-                Meta de evolução para 90% de precisão.
-                <span class="detail">Equipe trabalha na otimização dos algoritmos para maior confiabilidade.</span>
-              </li>
+              <li>Decodifica ondas cerebrais com 75% de precisão.<span class="detail">EEG não invasivo sem cirurgia.</span></li>
+              <li>Interface cérebro-computador totalmente não invasiva.<span class="detail">Comunicação direta.</span></li>
+              <li>Pipeline dual: tradução e refinamento.<span class="detail">Deep learning + LLM para coerência.</span></li>
+              <li>Aplicações clínicas e silenciosas.<span class="detail">Pacientes sem fala recuperam comunicação.</span></li>
+              <li>Meta de 90% de precisão futura.<span class="detail">Otimizações em andamento.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
     <!-- 4. Saúde Quântica 2.0 -->
-    <div class="article-summary collapsed" data-index="4" aria-label="Resumo da matéria sobre Saúde Quântica 2.0" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">4</h2>
-      </div>
+    <div class="article-summary collapsed" data-index="4" tabindex="0" aria-label="Saúde Quântica 2.0">
+      <div class="number-only" aria-hidden="true"><h2 class="number">4</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">Saúde Quântica 2.0 - A Próxima Revolução da Medicina</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Medicina Avançada</div>
-          </div>
+          <div class="title-block"><h1 class="title">Saúde Quântica 2.0 - A Próxima Revolução da Medicina</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Medicina Avançada</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa da Saúde Quântica 2.0">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2024/07/shutterstock_2465630553-1920x1080.jpg" alt="Tecnologia quântica aplicada à saúde">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2024/07/shutterstock_2465630553-1920x1080.jpg" alt="Saúde Quântica"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo estratégico e de impacto</div>
+            <div class="subtitle">Resumo estratégico</div>
             <ol class="list">
-              <li>
-                Saúde Quântica 2.0 manipula estados quânticos individuais (superposição e emaranhamento).
-                <span class="detail">Avanço além da Quantum 1.0, com controle em nível de partícula.</span>
-              </li>
-              <li>
-                Três pilares: computação, comunicação e sensores quânticos.
-                <span class="detail">Fármacos simulados com precisão, segurança de dados inquebrável e diagnósticos ultra precisos.</span>
-              </li>
-              <li>
-                Aplicações práticas em detecção precoce e tratamento.
-                <span class="detail">UTI identifica deterioração sutil; aceleração de desenvolvimento de medicamentos.</span>
-              </li>
-              <li>
-                Desafios estruturais no Brasil.
-                <span class="detail">Fuga de cérebros e déficit de infraestrutura ameaçam competitividade.</span>
-              </li>
-              <li>
-                Questões éticas e equidade.
-                <span class="detail">Proteção de dados genéticos e acesso amplo são pré-requisitos para legitimidade.</span>
-              </li>
+              <li>Manipulação de estados quânticos individuais.<span class="detail">Superposição e emaranhamento.</span></li>
+              <li>Computação, comunicação e sensores quânticos.<span class="detail">Fármacos, segurança e diagnósticos precisos.</span></li>
+              <li>Impacto prático em UTI e P&D.<span class="detail">Detecção precoce e aceleração de fármacos.</span></li>
+              <li>Desafios no Brasil.<span class="detail">Fuga de cérebros e infraestrutura deficiente.</span></li>
+              <li>Ética e equidade.<span class="detail">Proteção de dados e acesso amplo.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
-    <!-- 5. Evolução da IA e Cognição Humana -->
-    <div class="article-summary collapsed" data-index="5" aria-label="Resumo da matéria sobre evolução da IA e cognição humana" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">5</h2>
-      </div>
+    <!-- 5. IA e Cognição Humana -->
+    <div class="article-summary collapsed" data-index="5" tabindex="0" aria-label="IA e Cognição">
+      <div class="number-only" aria-hidden="true"><h2 class="number">5</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">A Evolução da Inteligência Artificial e a Cognição Humana</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Cognição e Trabalho</div>
-          </div>
+          <div class="title-block"><h1 class="title">A Evolução da Inteligência Artificial e a Cognição Humana</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Cognição e Trabalho</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa da relação entre IA e cognição">
-            <img src="https://s2-g1.glbimg.com/R4FsxiuotDlDajclcfcI0nTUEv8=/0x0:640x360/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2025/i/2/IQhzhTRRu1blrSrjoVhQ/gpt.png" alt="Representação da IA impactando cognição humana">
-          </div>
+          <div class="image-block"><img src="https://s2-g1.glbimg.com/R4FsxiuotDlDajclcfcI0nTUEv8=/0x0:640x360/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2025/i/2/IQhzhTRRu1blrSrjoVhQ/gpt.png" alt="IA e Cognição"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo crítico e estratégico</div>
+            <div class="subtitle">Resumo crítico</div>
             <ol class="list">
-              <li>
-                Debate sobre impacto da IA generativa na cognição humana.
-                <span class="detail">Ferramentas como ChatGPT podem organizar e criar conteúdo, afetando o pensamento autônomo.</span>
-              </li>
-              <li>
-                Efeito Dunning-Kruger amplificado pelo uso superficial da IA.
-                <span class="detail">Usuários podem superestimar compreensão apenas repetindo resultados gerados.</span>
-              </li>
-              <li>
-                Divisão entre substituição e potencialização cognitiva.
-                <span class="detail">Quem substitui o pensamento crítico se expõe; quem amplia com IA avança.</span>
-              </li>
-              <li>
-                IA como parceira, não atalho.
-                <span class="detail">Uso estratégico transforma a ferramenta em amplificador de inteligência.</span>
-              </li>
-              <li>
-                Futuro do trabalho orientado pela forma de uso da IA.
-                <span class="detail">Adoção inteligente confere vantagem competitiva; dependência reduz resiliência.</span>
-              </li>
+              <li>Debate sobre IA afetando pensamento autônomo.<span class="detail">Organização e criação podem reduzir raciocínio próprio.</span></li>
+              <li>Efeito Dunning-Kruger intensificado.<span class="detail">Superestimação sem compreensão real.</span></li>
+              <li>Substituição vs potencialização.<span class="detail">Uso estratégico gera vantagem.</span></li>
+              <li>IA como parceira.<span class="detail">Amplifica, não substitui.</span></li>
+              <li>Futuro do trabalho dependente da adoção inteligente.<span class="detail">Competitividade e resiliência.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
     <!-- 6. Gemini 2.5 Deep Think -->
-    <div class="article-summary collapsed" data-index="6" aria-label="Resumo da matéria sobre Gemini 2.5 Deep Think do Google" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">6</h2>
-      </div>
+    <div class="article-summary collapsed" data-index="6" tabindex="0" aria-label="Gemini 2.5">
+      <div class="number-only" aria-hidden="true"><h2 class="number">6</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">Google Lança Gemini 2.5 Deep Think, Novo Modelo de IA Multiagente</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: IA Avançada</div>
-          </div>
+          <div class="title-block"><h1 class="title">Google Lança Gemini 2.5 Deep Think, Novo Modelo de IA Multiagente</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>IA Avançada</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa do Gemini 2.5 Deep Think">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2025/04/chatbot-deep-gemini-avanada-1920x1080.png" alt="Interface do Gemini 2.5 Deep Think">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2025/04/chatbot-deep-gemini-avanada-1920x1080.png" alt="Gemini Deep Think"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo estratégico e operacional</div>
+            <div class="subtitle">Resumo operacional</div>
             <ol class="list">
-              <li>
-                Lançamento do Gemini 2.5 Deep Think como modelo multiagente premium.
-                <span class="detail">Exclusivo para assinantes AI Ultra; primeiro multiagente público do Google.</span>
-              </li>
-              <li>
-                Raciocínio aprimorado com múltiplos agentes e reforço.
-                <span class="detail">Agentes simultâneos e técnicas novas de aprendizado por reforço refinam linhas de pensamento.</span>
-              </li>
-              <li>
-                Desempenho de destaque em benchmarks.
-                <span class="detail">34,8% no Humanity’s Last Exam e 87,6% em programação competitiva; liberação controlada para desenvolvedores e acadêmicos.</span>
-              </li>
-              <li>
-                Alinhamento regulatório na Europa.
-                <span class="detail">Adesão voluntária ao AI Act da UE sinaliza compromisso com transparência, segurança e padrões éticos.</span>
-              </li>
+              <li>Lançamento premium multiagente exclusivo AI Ultra.<span class="detail">Primeiro multiagente público do Google.</span></li>
+              <li>Raciocínio com múltiplos agentes e reforço.<span class="detail">Linhas de pensamento refinadas.</span></li>
+              <li>Alto desempenho em benchmarks.<span class="detail">34,8% no HLE; 87,6% em programação competitiva.</span></li>
+              <li>Alinhamento regulatório europeu.<span class="detail">Adesão voluntária ao AI Act.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
-    <!-- 7. Cápsula Interface / Controle Remoto Humano -->
-    <div class="article-summary collapsed" data-index="7" aria-label="Resumo da matéria sobre Cápsula Interface da H2L" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">7</h2>
-      </div>
+    <!-- 7. Cápsula Interface -->
+    <div class="article-summary collapsed" data-index="7" tabindex="0" aria-label="Cápsula Interface">
+      <div class="number-only" aria-hidden="true"><h2 class="number">7</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">Corpo Humano Vira 'Controle Remoto' para Robôs com Nova Tecnologia Japonesa</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Robótica e Interface Humano-Máquina</div>
-          </div>
+          <div class="title-block"><h1 class="title">Corpo Humano Vira 'Controle Remoto' para Robôs com Nova Tecnologia Japonesa</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Robótica e Interface Humano-Máquina</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa da Cápsula Interface">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2025/07/Captura-de-tela-2025-07-02-123535-1024x510.png" alt="Cápsula Interface transformando corpo humano em controle remoto">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2025/07/Captura-de-tela-2025-07-02-123535-1024x510.png" alt="Cápsula Interface"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo funcional e de impacto</div>
+            <div class="subtitle">Resumo funcional</div>
             <ol class="list">
-              <li>
-                Cápsula Interface converte movimentos e força humana para controle remoto de robôs humanoides.
-                <span class="detail">Corpo atua como controle com captura de intenção física em tempo real.</span>
-              </li>
-              <li>
-                Integração com IA TWIST permite replicação fiel de movimento e força.
-                <span class="detail">Ciclo de feedback contínuo entre usuário e robô, incluindo esforço aplicado.</span>
-              </li>
-              <li>
-                Aplicações multi-setoriais práticas.
-                <span class="detail">Uso remoto em empresas, zonas de risco, logística, assistência a idosos, agricultura e saúde.</span>
-              </li>
-              <li>
-                Experiências naturais e de baixo esforço.
-                <span class="detail">Interface semelhante a cadeira de massagem sem necessidade de treinamento complexo.</span>
-              </li>
-              <li>
-                Futuro com feedback proprioceptivo.
-                <span class="detail">Próximo avanço aumentará realismo e ampliará a interação compartilhada.</span>
-              </li>
+              <li>Corpo humano controla robôs via Cápsula Interface.<span class="detail">Captura intenção e força em tempo real.</span></li>
+              <li>Integração com IA TWIST.<span class="detail">Feedback contínuo e replicação exata.</span></li>
+              <li>Uso em ambientes corporativos, perigosos e de saúde.<span class="detail">Operação remota natural.</span></li>
+              <li>Experiência de baixo esforço.<span class="detail">Assento similar a cadeira de massagem.</span></li>
+              <li>Futuro com feedback proprioceptivo.<span class="detail">Maior realismo.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
     <!-- 8. HDMI 2.2 -->
-    <div class="article-summary collapsed" data-index="8" aria-label="Resumo da matéria sobre HDMI 2.2" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">8</h2>
-      </div>
+    <div class="article-summary collapsed" data-index="8" tabindex="0" aria-label="HDMI 2.2">
+      <div class="number-only" aria-hidden="true"><h2 class="number">8</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">HDMI 2.2: A Próxima Geração de Cabos para Áudio e Vídeo de Alta Qualidade</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Multimídia e Hardware</div>
-          </div>
+          <div class="title-block"><h1 class="title">HDMI 2.2: A Próxima Geração de Cabos para Áudio e Vídeo de Alta Qualidade</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Multimídia e Hardware</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa do HDMI 2.2">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/hdmi-1920x1080.jpg" alt="Cabo HDMI de próxima geração">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/hdmi-1920x1080.jpg" alt="HDMI 2.2"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo técnico e de adoção</div>
+            <div class="subtitle">Resumo técnico</div>
             <ol class="list">
-              <li>
-                Largura de banda dobrada para 96 Gbps ("Ultra96").
-                <span class="detail">Permite transmissão de dados intensiva para jogos e renderizações em tempo real.</span>
-              </li>
-              <li>
-                Suporte a resoluções extremas e alta fidelidade.
-                <span class="detail">12K a 120Hz, 16K a 60Hz, 8K 60Hz 4:4:4, 4K 240Hz com profundidade de cor de 10/12 bits.</span>
-              </li>
-              <li>
-                Sincronização aprimorada via LIP.
-                <span class="detail">Protocolo de Indicação de Latência ajusta áudio e vídeo para eliminar desalinhamentos perceptíveis.</span>
-              </li>
-              <li>
-                Otimizações complementares: FRL, eARC, VRR, ALLM e QMS.
-                <span class="detail">Transmissão consistente, áudio de alta qualidade, eliminação de travamentos e troca fluida de taxa de quadros.</span>
-              </li>
-              <li>
-                Público-alvo e compatibilidade.
-                <span class="detail">Mais relevante para profissionais, gamers e aplicações imersivas; exige hardware compatível para aproveitamento pleno.</span>
-              </li>
-              <li>
-                Disponibilidade esperada no final do ano.
-                <span class="detail">Fabricantes começam implementação após divulgação das especificações.</span>
-              </li>
+              <li>Largura de banda de 96 Gbps ("Ultra96").<span class="detail">Transmissão intensiva para jogos e renderização.</span></li>
+              <li>Resoluções extremas suportadas.<span class="detail">12K120Hz,16K60Hz,8K4:4:4,4K240Hz.</span></li>
+              <li>Sincronização via LIP.<span class="detail">Áudio/vídeo alinhados.</span></li>
+              <li>FRL, eARC, VRR, ALLM, QMS.<span class="detail">Estabilidade e fluidez.</span></li>
+              <li>Compatibilidade e público-alvo.<span class="detail">Profissionais/gamers; requer hardware adequado.</span></li>
+              <li>Disponibilidade prevista no final do ano.<span class="detail">Implementação em andamento.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
-    <!-- 9. HP Dimension / Google Beam -->
-    <div class="article-summary collapsed" data-index="9" aria-label="Resumo da matéria sobre HP Dimension com Google Beam" tabindex="0">
-      <div class="number-only" aria-hidden="true">
-        <h2 class="number">9</h2>
-      </div>
+    <!-- 9. HP Dimension -->
+    <div class="article-summary collapsed" data-index="9" tabindex="0" aria-label="HP Dimension Google Beam">
+      <div class="number-only" aria-hidden="true"><h2 class="number">9</h2></div>
       <div class="full-content">
         <div class="header">
-          <div class="title-block">
-            <h1 class="title">HP e Google Lançam Sistema de Videoconferências em 3D com Preço de US$ 25 Mil</h1>
-          </div>
-          <div class="meta">
-            <div>Por Autor Nome</div>
-            <div>&bull; 04 de agosto de 2025</div>
-            <div>&bull; Categoria: Comunicação Corporativa</div>
-          </div>
+          <div class="title-block"><h1 class="title">HP e Google Lançam Sistema de Videoconferências em 3D com Preço de US$ 25 Mil</h1></div>
+          <div class="meta"><div>Por Autor Nome</div><div>&bull; 04 de agosto de 2025</div><div>Comunicação Corporativa</div></div>
         </div>
         <div class="body">
-          <div class="image-block" aria-label="Imagem ilustrativa do HP Dimension e Google Beam">
-            <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/google-beam-2-1920x1080.jpg" alt="Sistema de videoconferência 3D HP Dimension">
-          </div>
+          <div class="image-block"><img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/google-beam-2-1920x1080.jpg" alt="HP Dimension"></div>
           <div class="points">
             <h2>Principais Pontos</h2>
-            <div class="subtitle">Resumo estratégico e de mercado</div>
+            <div class="subtitle">Resumo de mercado</div>
             <ol class="list">
-              <li>
-                HP Dimension usa plataforma Google Beam para videoconferência 3D imersiva.
-                <span class="detail">Simula presença física com múltiplas câmeras e display volumétrico.</span>
-              </li>
-              <li>
-                Hardware e funcionalidade.
-                <span class="detail">Seis câmeras de alta velocidade em torno de tela de 65"; compatível com Zoom e Google Meet; requer assinatura do Beam.</span>
-              </li>
-              <li>
-                Posicionamento premium.
-                <span class="detail">Preço de US$ 25.000 direcionado ao mercado corporativo global.</span>
-              </li>
-              <li>
-                Google Beam (ex-Project Starline) reintroduzido no Google I/O.
-                <span class="detail">Baseado em IA avançada e infraestrutura Google Cloud; exige equipamento de alto custo.</span>
-              </li>
-              <li>
-                Estratégia de expansão.
-                <span class="detail">Pretende lançar dispositivos mais acessíveis; HP Dimension é o primeiro, com lançamento até o final de 2025 para clientes selecionados.</span>
-              </li>
+              <li>Google Beam para videoconferência 3D imersiva.<span class="detail">Presença simulada volumétrica.</span></li>
+              <li>Hardware com seis câmeras e tela de 65".<span class="detail">Compatível com Zoom/Meet; assinatura necessária.</span></li>
+              <li>Preço de US$ 25.000, foco corporativo.<span class="detail">Segmento enterprise.</span></li>
+              <li>Reintrodução do Beam (ex-Starline).<span class="detail">IA avançada e infraestrutura Google Cloud.</span></li>
+              <li>Expansão com modelos mais acessíveis prevista até 2025.<span class="detail">Lançamento para clientes selecionados.</span></li>
             </ol>
           </div>
         </div>
-        <div class="footer">
-          Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>. Todos os direitos reservados.
-        </div>
+        <div class="footer">Matéria publicada em <time datetime="2025-08-04">4 de agosto de 2025</time>.</div>
       </div>
     </div>
 
@@ -681,7 +435,6 @@
   <script>
     (function(){
       const cards = Array.from(document.querySelectorAll('.article-summary'));
-
       function collapseAll() {
         cards.forEach(c => {
           c.classList.add('collapsed');
@@ -694,15 +447,12 @@
         card.setAttribute('aria-expanded','true');
         setTimeout(() => card.scrollIntoView({behavior:'smooth', block:'start'}), 100);
       }
-
       collapseAll();
-
       cards.forEach(card => {
         card.addEventListener('click', () => {
           const isCollapsed = card.classList.contains('collapsed');
-          if (isCollapsed) {
-            expand(card);
-          } else {
+          if (isCollapsed) expand(card);
+          else {
             card.classList.add('collapsed');
             card.setAttribute('aria-expanded','false');
           }
